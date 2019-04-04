@@ -44,6 +44,11 @@ class Instructor extends Person {
   grade(student,subject){
     console.log(`${student.name} receives a perfect score on ${subject}`);
   }
+  randomGrade(student){
+    let addOrSubtract = Math.round(Math.random()*100,0)>50?student.grade = student.grade + Math.round(Math.random()*10,2):student.grade = student.grade - Math.round(Math.random()*10,2);
+    student.graduate(this);  
+    
+  }
 }
 
 const harvey = new Instructor({
@@ -76,6 +81,7 @@ class Student extends Person {
     this.previousBackground = object.previousBackground;
     this.className = object.className;
     this.favSubjects = object.favSubjects;
+    this.grade = object.grade;
   }
   listsSubjects(){
     console.log(...this.favSubjects);
@@ -86,6 +92,15 @@ class Student extends Person {
   sprintChallenge(subject){
     console.log(`${this.name} has begun sprint challenge on ${subject}`);
   }
+  graduate(grader){
+    if (this.grade > 70){
+      console.log(`Hooray! ${this.name} just graduated Lambda School with an acceptable grade of ${this.grade}!`);
+    }else{
+      console.log(`${this.name}'s grade is a paltry ${this.grade}. Try harder!!`);
+      grader.randomGrade(this);
+    }
+
+  }
 }
 
 const kyle = new Student({
@@ -95,7 +110,8 @@ const kyle = new Student({
   gender: "male",
   previousBackground: "Nurse",
   className: "DS111",
-  favSubjects: ["OOP","DOM","MDN"]
+  favSubjects: ["OOP","DOM","MDN"],
+  grade: 65
 })
 
 const janet = new Student({
@@ -105,7 +121,8 @@ const janet = new Student({
   gender: "female",
   previousBackground: "Professional Skateboarder",
   className: "WEB44",
-  favSubjects: ["HTML","JS","React"]
+  favSubjects: ["HTML","JS","React"],
+  grade: 68
 })
 
 kyle.listsSubjects();
@@ -153,3 +170,7 @@ const lisa = new ProjectManager({
 
 bart.standUp("#WEB432");
 lisa.debugsCode(kyle,"Data Viz");
+
+
+kyle.graduate(betty);
+janet.graduate(lisa);
